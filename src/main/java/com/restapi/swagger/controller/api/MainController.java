@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.restapi.swagger.dto.ProductDTO; // Pastikan import ini benar
+import com.restapi.swagger.dto.ProductDTO;
 import com.restapi.swagger.model.Product;
 import com.restapi.swagger.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +31,7 @@ public class MainController {
 
 
 
+    // Untuk konversi antara DTO dan Entity
     private Product convertToEntity(ProductDTO dto) {
         Product product = new Product();
         if (dto.getId() != null) {
@@ -46,6 +46,7 @@ public class MainController {
         return product;
     }
 
+    // Untuk konversi antara Entity dan DTO
     private ProductDTO convertToDto(Product entity) {
         ProductDTO dto = new ProductDTO();
         dto.setId(entity.getId());
@@ -58,19 +59,20 @@ public class MainController {
         return dto;
     }
 
+    // Ambil semua data produk
     @GetMapping("/getData")
     @Operation(summary = "Ambil Data Produk")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
 
+    // Ambil data produk per page
     @GetMapping("/getDataPage")
     @Operation(summary = "Ambil Data Produk (Pageable)")
     public Map<String, Object> getAllProducts(@RequestParam(defaultValue = "1") int page) {
         int size = 25;
         int rpage = (page < 1) ? 0 : page - 1;
         Page<Product> pageResult = productService.getAllProductsPage(rpage, size);
-
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("total_page", pageResult.getTotalPages());
         response.put("prev_page", pageResult.hasPrevious() ? "/api/getDataPage?page=" + (page - 1) : null);
@@ -78,53 +80,43 @@ public class MainController {
         response.put("next_page", pageResult.hasNext() ? "/api/getDataPage?page=" + (page+1) : null);
         response.put("total_data", pageResult.getTotalElements());
         response.put("data", pageResult.getContent());
-
         return response;
     }
 
+    // Search produk by name
     @GetMapping("/searchByName")
     @Operation(summary = "Search Produk by Name")
     public List<Product> searchProductsByName(@RequestParam String keyword) {
         return productService.searchProductByName(keyword);
     }
 
+    // Search produk by category
     @GetMapping("/searchByCategory")
     @Operation(summary = "Search Produk by Category")
     public List<Product> searchProductsByCategory(@RequestParam String keyword) {
         return productService.searchProductByCategory(keyword);
     }
 
-    // --- BAGIAN UTAMA YANG BERUBAH ---
 
+    // Add new product
     @PostMapping(value = "/addData", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Tambah Produk (Form DTO)", description = "Input via Form Field menggunakan DTO")
-    // Inputnya sekarang ProductDTO, bukan Product lagi
     public ProductDTO addProduct(@ModelAttribute ProductDTO productDto) { 
-        
-        // 1. Ubah DTO jadi Entity (Biar bisa disimpan ke DB)
         Product productEntity = convertToEntity(productDto);
-        
-        // 2. Simpan ke Database
         Product savedProduct = productService.saveProduct(productEntity);
-        
-        // 3. Balikin hasilnya dalam bentuk DTO lagi
         return convertToDto(savedProduct);
     }
 
+    // Update data product
     @PutMapping(value = "/updateData", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Update Produk (Form DTO)", description = "Update via Form Field menggunakan DTO")
     public ProductDTO updateProduct(@ModelAttribute ProductDTO productDto) {
-        
-        // 1. Ubah DTO jadi Entity
         Product productEntity = convertToEntity(productDto);
-        
-        // 2. Panggil service update (pastikan service menerima Entity & ID)
-        Product updatedProduct = productService.updateProduct(productDto.getId(), productEntity);
-        
-        // 3. Balikin ke DTO
+        Product updatedProduct = productService.updateProduct(productDto.getId(), productEntity);        
         return convertToDto(updatedProduct);
     }
 
+    // Hapus data product
     @DeleteMapping(value = "/deleteData")
     @Operation(summary = "Hapus Produk", description = "Hapus produk berdasarkan ID")
     public void deleteProduct(@RequestParam Long id) {

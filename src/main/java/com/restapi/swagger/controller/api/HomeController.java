@@ -10,4 +10,9 @@ public class HomeController {
     public String home() {
         return "redirect:/swagger-ui.html";
     }
+
+    @GetMapping("/bukankahIniMy")
+    public String swaggerRedirect() {
+        return "BUKAN, BUKAN PUNYA LU, TAPI PUNYA PADUKA YUDIS";
+    }
 }

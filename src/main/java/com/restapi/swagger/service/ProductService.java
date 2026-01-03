@@ -55,7 +55,6 @@ public class ProductService {
     public Product updateProduct(Long id, Product productBaru) {
         Product produkLama = productRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product dengan ID " + id + " tidak ditemukan."));
-
         produkLama.setName(productBaru.getName());
         produkLama.setPrice(productBaru.getPrice());
         produkLama.setDescription(productBaru.getDescription());
