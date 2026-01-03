@@ -73,9 +73,9 @@ public class MainController {
 
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("total_page", pageResult.getTotalPages());
-        response.put("prev_page", pageResult.hasPrevious() ? "/api/getDataPage?page=" + (pageResult.getNumber() - 2) : null);
+        response.put("prev_page", pageResult.hasPrevious() ? "/api/getDataPage?page=" + (page - 1) : null);
         response.put("current_page", pageResult.getNumber() + 1);
-        response.put("next_page", pageResult.hasNext() ? "/api/getDataPage?page=" + (pageResult.getNumber() + 2) : null);
+        response.put("next_page", pageResult.hasNext() ? "/api/getDataPage?page=" + (page+1) : null);
         response.put("total_data", pageResult.getTotalElements());
         response.put("data", pageResult.getContent());
 
