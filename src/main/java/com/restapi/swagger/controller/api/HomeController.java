@@ -13,6 +13,6 @@ public class HomeController {
 
     @GetMapping("/bukankahIniMy")
     public String swaggerRedirect() {
-        return "BUKAN, BUKAN PUNYA LU, TAPI PUNYA PADUKA YUDIS";
+        return "bukan";
     }
 }
