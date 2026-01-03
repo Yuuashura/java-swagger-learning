@@ -80,7 +80,7 @@ Project ini dikonfigurasi untuk deploy otomatis di Railway.
 
 **Environment Variables yang Wajib di-set di Railway:**
 * `DB_URL` : URL koneksi JDBC (jdbc:postgresql://...)
-* `DB_USERNAME` : Username database (biasanya `postgres`)
+* `DB_USER` : Username database (biasanya `postgres`)
 * `DB_PASSWORD` : Password database
 * `PORT` : (Otomatis diisi Railway)
 
