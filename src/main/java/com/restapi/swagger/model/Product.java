@@ -1,6 +1,5 @@
 package com.restapi.swagger.model;
 
-import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.*;
 
 @Entity
