@@ -4,6 +4,7 @@
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2.1-green)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-blue)
 ![Railway](https://img.shields.io/badge/Deploy-Railway-white)
+![Instagram](https://img.shield.io/badge/@Yudis.Ashura-Instagram-orange)
 
 Project ini adalah **Backend REST API** untuk manajemen produk toko, dibuat menggunakan Java Spring Boot. Project ini mendukung fitur CRUD lengkap, Pagination, Pencarian, dan dokumentasi otomatis via Swagger UI.
 
